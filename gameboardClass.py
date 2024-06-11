@@ -9,9 +9,7 @@ class TGameBoard:
         self.tile_size=tile_size
         self.max_tile_count=max_tile_count
         self.stochastic_prob=stochastic_prob
-        self.agent=agent;
-        # Create table for game board, entries 1 means occupied, entries -1 means free
-        # Use type float32 to simplify conversion to tensors in torch
+        self.agent=agent
         self.board=np.empty((N_row,N_col),dtype=np.float32)
         self.cur_tile_type=-1
         self.tile_x=-1
@@ -102,7 +100,6 @@ class TGameBoard:
 
     def fn_new_tile(self):
         if self.tile_count<self.max_tile_count:
-            # Choose a random tile with probability stochastic_prob, otherwise take tile from deterministic sequence of tiles
             if random.random()<self.stochastic_prob:
                 self.cur_tile_type=random.randint(0,len(self.tiles)-1)
             else:
@@ -137,7 +134,6 @@ class TGameBoard:
 
     def fn_drop(self):
         curtile=self.tiles[self.cur_tile_type][self.tile_orientation]
-        # Find first location where the piece collides with occupied locations on the game board
         self.tile_y=0
         for xLoop in range(len(curtile)):
             curx=(self.tile_x+xLoop)%self.N_col
@@ -145,14 +141,11 @@ class TGameBoard:
             cury=-1;
             for yLoop in range(self.N_row-1,-1,-1):
                 if self.board[yLoop,curx]>0:
-                    # Calculate the y position for this column if no other columns are taken into account
                     cury=yLoop+1-curtile[xLoop][0]
                     break
-            # Use the largest y position for all columns of the tile
             if self.tile_y<cury:
                 self.tile_y=cury
 
-        # Change board entries at the newly placed tile to occupied
         for xLoop in range(len(curtile)):
             if self.tile_y+curtile[xLoop][1]>self.N_row:
                 self.gameover=1

@@ -4,6 +4,7 @@ import h5py
 import gameboardClass
 import agentClass
 
+
 PARAM_TASK1a=1
 PARAM_TASK1b=2
 PARAM_TASK1c=3
@@ -12,7 +13,7 @@ PARAM_TASK2a=5
 PARAM_TASK2b=6
 
 # Choose to control the game yourself ('human_player=1') to test the setups in the different tasks
-human_player=1
+#human_player=1
 human_player=1
 
 # Choose parameter sets for different tasks
@@ -24,7 +25,6 @@ param_set=PARAM_TASK1a
 #param_set=PARAM_TASK2b
 
 # Use files to evaluate strategy
-# If you change 'strategy_file' to the location of a file containing a stored Q-table or Q-network, you can evaluate the success of the found strategy
 if param_set==PARAM_TASK1a:
     strategy_file=''
 elif param_set==PARAM_TASK1b:
@@ -45,7 +45,6 @@ if strategy_file:
     human_player=1
 else:
     evaluate_agent=0
-
 
 # The code below initializes the game parameters for the task selected by 'param_set'
 # Game parameters: 
@@ -85,7 +84,7 @@ elif param_set==PARAM_TASK1b:
     stochastic_prob=0
 
     alpha=0.2
-    epsilon=0.001
+    epsilon=0.005
     episode_count=10000
 
     if (not human_player) or evaluate_agent:
@@ -98,8 +97,8 @@ elif param_set==PARAM_TASK1c:
     stochastic_prob=1
 
     alpha=0.2
-    epsilon=0.01
-    episode_count=200000
+    epsilon=0.001
+    episode_count=200_000
 
     if (not human_player) or evaluate_agent:
         agent=agentClass.TQAgent(alpha,epsilon,episode_count)
@@ -114,7 +113,7 @@ elif param_set==PARAM_TASK1d:
 
     alpha=0.2
     epsilon=0.001
-    episode_count=200000
+    episode_count=200_000
 
     if (not human_player) or evaluate_agent:
         agent=agentClass.TQAgent(alpha,epsilon,episode_count)
@@ -127,10 +126,10 @@ elif param_set==PARAM_TASK2a:
 
     alpha=0.001
     epsilon=0.001
-    episode_count=10000
+    episode_count=10_000
 
     epsilon_scale=5000
-    replay_buffer_size=10000
+    replay_buffer_size=10_000
     batch_size=32
     sync_target_episode_count=100
 
